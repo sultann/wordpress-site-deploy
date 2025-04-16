@@ -147,7 +147,7 @@ Thumbs.db
 
 ```yaml
 - name: Deploy site
-  uses: sultann/wordpress-site-deploy-action@main
+  uses: sultann/wordpress-site-deploy@v1
   with:
     ssh_host: ${{ secrets.DEPLOY_HOST }}
     ssh_user: deploy
@@ -186,7 +186,7 @@ jobs:
         run: composer install --no-dev --optimize-autoloader
 
       - name: Deploy using WordPress Site Deploy
-        uses: sultann/wordpress-site-deploy-action@main
+        uses: sultann/wordpress-site-deploy@v1
         with:
           ssh_host: ${{ secrets.DEPLOY_HOST }}
           ssh_user: deploy
