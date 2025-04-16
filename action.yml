@@ -1,5 +1,5 @@
-name: 'WordPress Site Deploy'
-description: 'Deploy wp-content to a remote server using SSH and rsync'
+name: 'WordPress Site Deploy Action'
+description: 'Deploy wp-content to a remote server using SSH and rsync. Includes .distignore and optional Slack notifications.'
 author: 'Sultan Nasir Uddin'
 branding:
   icon: 'upload-cloud'
