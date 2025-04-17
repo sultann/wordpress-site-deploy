@@ -51,9 +51,9 @@ rsync -avz --delete --no-o --no-g \
   --exclude='/uploads/' \
   --exclude='/upgrade/' \
   --exclude='/backups/' \
-  --exclude='advanced-cache.php' \
-  --exclude='object-cache.php' \
-  --exclude='db.php' \
+  --exclude='/advanced-cache.php' \
+  --exclude='/object-cache.php' \
+  --exclude='/db.php' \
   --exclude='/cache/' \
   --exclude='*.log' \
   --exclude='*.bak' \
