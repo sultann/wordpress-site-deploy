@@ -8,11 +8,8 @@ set -eo
 #########################################
 # SETUP VARIABLES AND DEFAULTS #
 #########################################
-
-TARGET_PATH="$1"
-
-if [[ -z "$TARGET_PATH" ]]; then
-  echo "x︎ TARGET_PATH is not set. Exiting..."
+if [[ -z "$DEPLOY_PATH" || "$DEPLOY_PATH" == "/" || ! "$DEPLOY_PATH" =~ ^[a-zA-Z0-9/_\.\-]+$ || "$DEPLOY_PATH" != */* ]]; then
+  echo "x︎ DEPLOY_PATH is invalid or unsafe: '$DEPLOY_PATH'"
   exit 1
 fi
 
@@ -21,7 +18,7 @@ fi
 #########################################
 
 echo "➤ Preparing remote path..."
-if ssh server "mkdir -p '$TARGET_PATH'"; then
+if ssh server "mkdir -p '$DEPLOY_PATH'"; then
   echo "✓ Remote path ensured."
 else
   echo "x︎ Failed to create remote path. Exiting..."
@@ -66,7 +63,7 @@ rsync -avz --delete --no-o --no-g \
   --exclude='*.sqlite' \
   --exclude='*.db' \
   --exclude-from="$GITHUB_WORKSPACE/.distignore" \
-  "$GITHUB_WORKSPACE/" "server:$TARGET_PATH"
+  "$GITHUB_WORKSPACE/" "server:$DEPLOY_PATH"
 
 echo "✓ Files deployed successfully!"
 
@@ -76,7 +73,7 @@ echo "✓ Files deployed successfully!"
 
 echo "➤ Checking for WP-CLI and flushing caches..."
 
-ssh server "cd '$TARGET_PATH' && if command -v wp >/dev/null 2>&1; then
+ssh server "cd '$DEPLOY_PATH' && if command -v wp >/dev/null 2>&1; then
   echo 'ℹ︎ WP-CLI found. Flushing caches...'
   wp cache flush --allow-root || true
   wp transient delete --all --allow-root || true

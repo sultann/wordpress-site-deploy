@@ -34,9 +34,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-
     - name: Setup SSH key
       uses: shimataro/ssh-key-action@v2
       with:
@@ -53,9 +50,10 @@ runs:
         known_hosts: unnecessary
 
     - name: Deploy via rsync
-      run: |
-        bash ${GITHUB_ACTION_PATH}/deploy.sh "${{ inputs.deploy_path }}"
       shell: bash
+      run: ${{ github.action_path }}/deploy.sh
+      env:
+        DEPLOY_PATH: ${{ inputs.deploy_path }}
 
     - name: Set Default Slack Message
       shell: bash
